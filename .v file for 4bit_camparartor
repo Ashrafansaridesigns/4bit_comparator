@@ -1,0 +1,16 @@
+`timescale 1ns / 1ps
+
+module 4bit_comaparator(a,b,a_gt_b,a_lt_b,a_eq_b);
+input [3:0] a;
+input [3:0] b;
+output reg a_gt_b,a_lt_b,a_eq_b;
+reg [3:0] x;
+always @(*)
+begin
+x=(a)~^(b);
+a_gt_b=a[3]&(~b[3])|x[3]&a[2]&(~b[2])|x[3]&x[2]&a[1]&(~b[1])|x[3]&x[2]&x[1]&a[0]&(~b[0]);
+a_lt_b=(~a[3])&b[3]|x[3]&(~a[2])&b[2]|x[3]&x[2]&(~a[1])&b[1]|x[3]&x[2]&x[1]&(~a[0])&b[0];
+a_eq_b=x[3]&x[2]&x[1]&x[0];
+
+end   
+endmodule
